@@ -134,6 +134,26 @@ class EarleyParser:
 
         duration = time.time() - start_time
 
+        # Format chart tables for visualization
+        formatted_chart: List[Dict[str, Any]] = []
+        for k in range(n + 1):
+            items_list = []
+            for prod_id, dot, origin in chart[k]:
+                prod = prod_map[prod_id]
+                rhs_with_dot = list(prod.rhs)
+                rhs_with_dot.insert(dot, "•")
+                rhs_str = " ".join(rhs_with_dot)
+                items_list.append({
+                    "production": f"{prod.lhs} -> {rhs_str}",
+                    "origin": origin,
+                    "is_complete": dot == len(prod.rhs)
+                })
+            formatted_chart.append({
+                "chart_index": k,
+                "token": tokens[k - 1] if k > 0 else "START",
+                "items": items_list
+            })
+
         # Check acceptance
         accepted = False
         if not timed_out:
@@ -147,7 +167,8 @@ class EarleyParser:
                 "accepted": False,
                 "duration_seconds": duration,
                 "step_count": step_count,
-                "timed_out": timed_out
+                "timed_out": timed_out,
+                "chart_tables": formatted_chart
             }
             return (False, ParseForest(None), stats)
 
@@ -215,6 +236,7 @@ class EarleyParser:
             "duration_seconds": duration,
             "step_count": step_count,
             "timed_out": timed_out,
-            "has_cycle": cycle_detected
+            "has_cycle": cycle_detected,
+            "chart_tables": formatted_chart
         }
         return (True, forest, stats)

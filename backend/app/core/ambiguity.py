@@ -48,7 +48,8 @@ def analyze_string_ambiguity(
             "trees": [],
             "complete": True,
             "limits_reached": [],
-            "message": "The input string cannot be derived from the grammar."
+            "message": "The input string cannot be derived from the grammar.",
+            "chart_tables": stats.get("chart_tables", [])
         }
 
     trees, complete = forest.extract_trees(max_trees=max_trees)
@@ -63,7 +64,8 @@ def analyze_string_ambiguity(
             "trees": [t.to_dict() for t in trees],
             "complete": complete,
             "limits_reached": [] if complete else ["max_trees"],
-            "message": f"Ambiguity confirmed: found {distinct_count} distinct parse trees for this string."
+            "message": f"Ambiguity confirmed: found {distinct_count} distinct parse trees for this string.",
+            "chart_tables": stats.get("chart_tables", [])
         }
 
     if distinct_count == 1:
@@ -76,7 +78,8 @@ def analyze_string_ambiguity(
                 "trees": [trees[0].to_dict()],
                 "complete": True,
                 "limits_reached": [],
-                "message": "Unique parse confirmed: exactly one parse tree derives this string."
+                "message": "Unique parse confirmed: exactly one parse tree derives this string.",
+                "chart_tables": stats.get("chart_tables", [])
             }
         else:
             reasons = []

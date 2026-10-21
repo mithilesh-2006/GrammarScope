@@ -36,7 +36,8 @@ class AmbiguityService:
             trees=res["trees"],
             complete=res["complete"],
             limits_reached=res["limits_reached"],
-            message=res["message"]
+            message=res["message"],
+            chart_tables=res.get("chart_tables")
         )
 
     @staticmethod

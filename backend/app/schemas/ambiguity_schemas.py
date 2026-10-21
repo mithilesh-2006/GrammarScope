@@ -18,6 +18,7 @@ class StringAmbiguityResponse(BaseModel):
     complete: bool
     limits_reached: List[str] = Field(default_factory=list)
     message: str
+    chart_tables: Optional[List[Dict[str, Any]]] = None
 
 class GrammarAmbiguityRequest(BaseModel):
     grammar: str = Field(..., max_length=20000)

@@ -47,6 +47,18 @@ export interface ParseResponse {
   limits_reached: string[];
 }
 
+export interface EarleyChartItem {
+  production: string;
+  origin: number;
+  is_complete: boolean;
+}
+
+export interface EarleyChartStep {
+  chart_index: number;
+  token: string;
+  items: EarleyChartItem[];
+}
+
 export interface StringAmbiguityResponse {
   status: 'ambiguous' | 'unique_parse' | 'no_parse' | 'inconclusive';
   scope: string;
@@ -56,6 +68,7 @@ export interface StringAmbiguityResponse {
   complete: boolean;
   limits_reached: string[];
   message: string;
+  chart_tables?: EarleyChartStep[];
 }
 
 export interface GrammarAmbiguityResponse {
